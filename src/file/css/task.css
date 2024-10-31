@@ -1,0 +1,42 @@
+:root {
+    --acolor: #a2c5b8;
+    --bcolor: #5c8374;
+    --ccolor: #183d3d;
+    --dcolor: #040d12;
+  }
+.task-component {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 10px;
+}
+.task-component table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.task-component th, 
+.task-component td {
+    padding: 10px;
+    text-align: center;
+    color: var(--dcolor);
+}
+.task-component th {
+    font-weight: bold;
+    font-size: 1em;
+}
+.task-component thead tr{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+
+.task-component tbody tr{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.task-component td>button{
+    border: none;
+    background-color: white;
+}
+.task-component td>button>img{
+    width: 20px;
+    height: 20px;
+}

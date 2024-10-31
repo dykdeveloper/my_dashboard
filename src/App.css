@@ -1,38 +1,256 @@
-.App {
-  text-align: center;
+:root {
+  --acolor: #a2c5b8;
+  --bcolor: #5c8374;
+  --ccolor: #183d3d;
+  --dcolor: #040d12;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.wrapper{
+  position: relative;
+}
+/* sidebar */
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background-color: var(--acolor);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.sidebar-heading {
+  color: var(--dcolor);
+  text-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-weight: 600;
+}
+ul > li {
+  list-style: none;
+  margin-bottom: 25px;
+  padding: 5px;
+  transition: all 0.3s;
+}
+ul > li > a {
+  text-decoration: none;
+  font-size: 18px;
+  margin-left: -5px;
+  color: var(--ccolor);
+  font-weight: 600;
+}
+ul > li:hover {
+  background-color: var(--ccolor);
+  margin-left: -32px;
+  border-left: 5px solid orange;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+ul > li:hover a {
+  color: rgb(231, 230, 230);
+  margin-left: 15px;
+}
+.active {
+  background-color: var(--ccolor);
+  margin-left: -32px;
+  border-left: 5px solid orange;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+}
+.active2 {
+  color: rgb(231, 230, 230);
+  margin-left: 15px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+.main{
+  position: absolute;
+  width: calc(100% - 200px);
+  height: 100vh;
+  top: 0;
+  left: 200px;
+  padding: 15px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* navbar */
+.navbarr{
+  width: 100%;
+  height: 40px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.25);
+  margin-top: 0px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: end;
+  padding-right: 10px;
+  padding-right: 10px;
+  position: relative;
+}
+.navbarr img{
+  width: 25px;
+  height: 25px;
+}
+
+
+.add-task{
+  margin-right: 515px;
+}
+.add-task>a{
+  text-decoration: none;
+}
+.add-task>a>p{
+  text-decoration: none;
+  border: 1px solid var(--ccolor);
+  color: var(--ccolor);
+  border-radius: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: 600;
+  transition: all .3s;
+}
+.add-task>a>p:hover{
+  background-color: var(--ccolor);
   color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 15px;
+}
+.add-task>a:focus{
+  outline: none;
+}
+.add-task>a:focus>p{
+  box-shadow: none;
+  transform: translateY(2px);
 }
 
-.App-link {
-  color: #61dafb;
+.messagebox{
+  position: relative;
+  margin-left: 30px;
+}
+.navbarr .message{
+  position: relative;
+  cursor: pointer;
+}
+.message-count{
+  display: none;
+  position: absolute;
+  top: -3px;
+  right: -8px;
+  color: rgb(255, 4, 4);
+  font-weight: 600;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 15px;
+  width: 18px;
+  height: 18px;
+  background-color: rgb(215, 12, 12);
+  border-radius: 50%;
+}
+.m-count{
+  color: white;
+  font-size: 10px;
+  text-align: center;
+  margin-top: 2px;
+}
+.message-box{
+  transform: scale(0);
+  visibility: hidden;
+  position: absolute;
+  top: 40px;
+  right: 0px;
+  width: 300px;
+  height: 250px;
+  background-color: var(--acolor);
+  border-radius: 10px;
+  border: 2px solid var(--dcolor);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transition: transform 0.5s, visibility 0.5s;
+}
+.navbarr .messagebox:hover .message-box{
+  transform: scale(1);
+  visibility: visible;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.search{
+  position: relative;
 }
+.search input{
+  border: none;
+  border-bottom: 2px solid var(--acolor);
+  width: 300px;
+}
+.search input:focus{
+  outline: none;
+}
+.search .searchicon{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+
+.user-loginbox{
+  position: relative;
+  margin-left: 30px;
+}
+.navbarr .user{
+  cursor: pointer;
+  transition: all .5s;
+}
+.navbarr .userbox{
+  transform: scale(0);
+  visibility: hidden;
+  position: absolute;
+  top: 40px;
+  right: 0px;
+  width: 200px;
+  height: 250px;
+  background-color: var(--acolor);
+  border-radius: 10px;
+  border: 2px solid var(--dcolor);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transition: transform 0.5s, visibility 0.5s;
+  padding: 10px;
+}
+.navbarr .user-loginbox:hover .userbox{
+  transform: scale(1);
+  visibility: visible;
+}
+.profile-dp{
+  width: 100px;
+  height: 100px;
+  background-color: aliceblue;
+  border-radius: 50%;
+  margin-top: 5%;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 10px;
+}
+.profile-dp>h1{
+  text-align: center;
+  padding-top: 20px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 50px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--ccolor);
+}
+.user-name>p{
+  font-size: 20px;
+  margin-top: 30px;
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--ccolor);
+}
+.logout-btn>button{
+  width: 100%;
+  font-size: 20px;
+  padding: 5px;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  color: white;
+  background-color: var(--ccolor);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transition: all .3s;
+}
+.logout-btn>button:focus{
+  box-shadow: none;
+  transform: translateY(2px);
+}
+

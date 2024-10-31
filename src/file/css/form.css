@@ -1,0 +1,83 @@
+:root {
+  --acolor: #a2c5b8;
+  --bcolor: #5c8374;
+  --ccolor: #183d3d;
+  --dcolor: #040d12;
+}
+.form > label,
+p {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  color: var(--ccolor);
+  font-weight: 600;
+}
+
+.form input[type="text"],
+.form input[type="datetime-local"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid rgba(13, 63, 36, 0.3);
+  outline: none;
+}
+
+.radio-group {
+  margin-top: 15px;
+}
+
+.radio-group p {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.radio-group > label {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 0.9rem;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 5px;
+}
+form {
+  padding: 35px;
+  padding-top: 35px;
+  margin-top: 40px;
+  border: 2px solid var(--acolor);
+  border-radius: 20px;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 15px;
+}
+form > h3 {
+  position: absolute;
+  top: -20px;
+  left: 30px;
+  background-color: white;
+  color: var(--acolor);
+  padding-left: 10px;
+  padding-right: 10px;
+  text-shadow: rgba(0, 0, 0, 0.35) 2px 5px 15px;
+}
+form button {
+  margin-top: 20px;
+  width: 100%;
+  font-size: 25px;
+  letter-spacing: 4px;
+  font-weight: 600;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  border: none;
+  background-color: var(--bcolor);
+  color: white;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 15px;
+  transition: all .3s;
+}
+form button:focus{
+    box-shadow: none;
+    transform: translateY(2px);
+}
