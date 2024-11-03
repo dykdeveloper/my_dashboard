@@ -9,6 +9,7 @@ import ExpireTask from "./component/ExpireTask.js";
 import CompleteTask from "./component/CompleteTask.js";
 import User from "./component/User.js";
 import Form from "./component/Form.js";
+import TaskDetail from "./component/TaskDetail.js";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/completeTask" element={<CompleteTask />} />
                 <Route path="/user" element={<User />} />
                 <Route path="/form" element={<Form />} />
+                <Route path="/taskdetail/:id" element={<TaskDetail />} />
               </Routes>
               
             </main>

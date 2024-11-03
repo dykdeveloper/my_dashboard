@@ -1,42 +1,274 @@
 :root {
-    --acolor: #a2c5b8;
-    --bcolor: #5c8374;
-    --ccolor: #183d3d;
-    --dcolor: #040d12;
-  }
+  --acolor: #a2c5b8;
+  --bcolor: #5c8374;
+  --ccolor: #183d3d;
+  --dcolor: #040d12;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #d3e4dd;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ccolor);
+  border-radius: 10px;
+}
+
 .task-component {
-    width: 100%;
-    max-width: 1200px;
-    margin: auto;
-    padding: 10px;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
 }
 .task-component table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
-.task-component th, 
+.task-component th,
 .task-component td {
-    padding: 10px;
-    text-align: center;
-    color: var(--dcolor);
+  padding: 10px;
+  text-align: center;
+  color: var(--dcolor);
 }
 .task-component th {
-    font-weight: bold;
-    font-size: 1em;
+  font-weight: bold;
+  font-size: 1em;
 }
-.task-component thead tr{
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+thead {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+.task-component thead tr {
+  display: flex;
+  justify-content: flex-start;
+}
+.task-component thead tr:last-child {
+    margin-bottom: 8px;
+}
+thead tr .th2 {
+  text-align: left;
+  width: 130px;
+  margin-left: 9px;
+}
+thead tr .th3 {
+  text-align: left;
+  width: 160px;
+  margin-left: 12px;
+}
+thead tr .th4 {
+  text-align: left;
+  width: 160px;
+  margin-left: 25px;
+  margin-right: 28px;
+}
+thead tr .th5 {
+  text-align: left;
+  margin-right: 85px;
+}
+thead tr .th6 {
+  text-align: left;
+  margin-right: 65px;
+}
+.table-body-container {
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+tbody tr {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  text-align: center;
+  color: var(--dcolor);
+}
+tbody tr .td1 {
+  margin-right: 20px;
+  text-align: left;
+}
+tbody tr .td2 {
+  width: 140px;
+  text-align: left;
+}
+tbody tr .td3 {
+  margin-right: 10px;
+}
+tbody tr .td5 {
+  margin-left: 10px;
+  margin-right: 20px;
+}
+tbody tr .td6 {
+  margin-right: 10px;
 }
 
-
-.task-component tbody tr{
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+.task-component tbody tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-.task-component td>button{
+.task-component td > button {
+  border: none;
+  background-color: white;
+}
+.task-component td > button > img {
+  width: 20px;
+  height: 20px;
+}
+.task-component td > a > img {
+  width: 20px;
+  height: 20px;
+}
+tbody tr td p.task-completed {
+  text-align: center;
+  margin-top: 15px;
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 10px;
+  background-color: rgb(10, 171, 39);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 40px;
+}
+tbody tr td p.task-notstarted {
+  text-align: center;
+  margin-top: 15px;
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 10px;
+  background-color: rgb(206, 9, 9);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 40px;
+}
+tbody tr td p.task-pending {
+  text-align: center;
+  margin-top: 15px;
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 10px;
+  background-color: rgb(171, 158, 10);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 40px;
+}
+tbody tr td p > img {
+  width: 20px;
+  height: 20px;
+  margin-left: -5px !important;
+}
+tbody tr td p.task-high {
+  margin-top: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  background-color: #f1aeae;
+  width: 120px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: red !important;
+  box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 30px;
+}
+tbody tr td p.task-medium {
+  margin-top: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  background-color: #f3ecb7;
+  width: 120px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: rgb(255, 174, 0) !important;
+  box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 30px;
+}
+tbody tr td p.task-low {
+  margin-top: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  background-color: #b0f1ae;
+  width: 120px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: rgb(7, 122, 7) !important;
+  box-shadow: rgba(0, 0, 0, 0.35) 1px 4px 40px;
+}
+.th3 select {
+  border: none;
+  outline: none;
+}
+.th4 select {
+  border: none;
+  outline: none;
+}
+.th5 select {
+  border: none;
+  outline: none;
+}
+.th6 select {
+  border: none;
+  outline: none;
+}
+thead p{
+    font-size: 18px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    color: #3d1818;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 600;
+}
+.op1{
+    margin-left: 120px;
+    width: 110px;
     border: none;
-    background-color: white;
+    outline: none;
+    border-bottom: 2px solid var(--bcolor);
+    border-radius: 5px;
 }
-.task-component td>button>img{
-    width: 20px;
-    height: 20px;
+.op2{
+    margin-left: 75px;
+    width: 110px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid var(--bcolor);
+    border-radius: 5px;
+}
+.op3{
+    margin-left: 80px;
+    width: 110px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid var(--bcolor);
+    border-radius: 5px;
+}
+.op4{
+    margin-left: 50px;
+    width: 110px;
+     border: none;
+    outline: none;
+    border-bottom: 2px solid var(--bcolor);
+    border-radius: 5px;
+}
+thead button{
+    margin-left: 90px;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0px 20px;
+    border-radius: 20px;
+    background-color: #3d1818;
+    border: none;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 5px 10px 30px;
+    transition: all .3s;
+}
+thead button:focus{
+    box-shadow: none;
+    transform: translateY(2px);
 }

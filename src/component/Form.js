@@ -1,19 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTask } from "../slice/TaskSlice";
-import { useNavigate } from "react-router-dom";
+import { addTask, updatetask } from "../slice/TaskSlice";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../file/css/form.css";
 
 export default function Form() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [taskData, setTaskData] = useState({
+    id: null,
     name: "",
     startDate: "",
     endDate: "",
     priority: "high",
     status: "not-started",
   });
+
+  useEffect(()=>{
+    if (location.state?.task) {
+      setTaskData(location.state.task);
+    }
+  }, [location.state]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,15 +31,20 @@ export default function Form() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addTask(taskData));
+    if (taskData.id) {
+      dispatch(updatetask(taskData));
+    }else{
+      dispatch(addTask(taskData));
+    }
     setTaskData({ name: "", startDate: "", endDate: "", priority: "high", status: "not-started" });
 
     navigate('/');
   };
+  
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-    <h3>Add Task</h3>
+    <h3>{taskData.id ? "Update Task" : "Add Task"}</h3>
       <label htmlFor="name">
         Task Name:
         <input type="text" name="name" id="name1" placeholder="Enter Task Name Here..." value={taskData.name} onChange={handleChange} required/>
