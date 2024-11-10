@@ -52,13 +52,13 @@ export default function Sidebar() {
             onClick={() => handleLinkClick("completeTask")}
           >
             <Link
-              to="/completetask"
+              to="/history"
               className={`sidebar-link ${
                 activeLink === "completeTask" ? "active2" : ""
               }`}
             >
               <i className="align-middle" data-feather="sliders"></i>
-              <span>Complete Task</span>
+              <span>History</span>
             </Link>
           </li>
           <li

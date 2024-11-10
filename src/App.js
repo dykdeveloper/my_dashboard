@@ -6,7 +6,7 @@ import Sidebar from "./layout/Sidebar";
 import Navbar from "./layout/Navbar.js";
 import Task from "./component/Task.js";
 import ExpireTask from "./component/ExpireTask.js";
-import CompleteTask from "./component/CompleteTask.js";
+import History from "./component/History.js";
 import User from "./component/User.js";
 import Form from "./component/Form.js";
 import TaskDetail from "./component/TaskDetail.js";
@@ -23,7 +23,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Task />} />
                 <Route path="/expireTask" element={<ExpireTask />} />
-                <Route path="/completeTask" element={<CompleteTask />} />
+                <Route path="/history" element={<History />} />
                 <Route path="/user" element={<User />} />
                 <Route path="/form" element={<Form />} />
                 <Route path="/taskdetail/:id" element={<TaskDetail />} />

@@ -36,7 +36,7 @@ export function getStatusButtonClass(status) {
         case 'completed':
             return 'task-completed';
         default:
-            return '';
+            return 'expired';
     }
   };
   export function formatDateTime(dateString){

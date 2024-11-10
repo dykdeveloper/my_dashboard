@@ -1,0 +1,57 @@
+
+.expire-task {
+  max-height: calc(100vh - 55px);
+  overflow-y: auto;
+}
+  .expire-task {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+  }
+  .expire-task table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .expire-task td {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .expire-task th {
+    font-weight: bold;
+    font-size: 1em;
+    padding: 10px;
+    text-align: center;
+    color: var(--dcolor);
+  }
+
+  .expire-task thead tr {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+
+
+ 
+
+  
+  .expire-task tbody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  tbody tr td p.expired {
+    width: 120px;
+    text-align: center;
+    margin-top: 15px;
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;  
+    padding-right: 10px;
+    border-radius: 10px;
+    background-color: rgb(157, 5, 5);
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 40px;
+  }
+  tbody tr td p > img {
+    margin-right: 10px;
+  }
+ 

@@ -43,8 +43,8 @@ thead {
   display: flex;
   justify-content: flex-start;
 }
-.task-component thead tr:last-child {
-    margin-bottom: 8px;
+.task-component thead tr:first-child {
+    margin-top: 8px;
 }
 thead tr .th2 {
   text-align: left;

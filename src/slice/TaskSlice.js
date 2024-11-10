@@ -4,6 +4,7 @@ import { loadState } from "../storage/LocalStorage";
 const initialState = {
   tasks: loadState().tasks || [],
   lastId: loadState().lastId || 0, 
+  expiredTasks: loadState().expiredTasks || [],
 };
 
 const taskSlice = createSlice({
@@ -16,7 +17,10 @@ const taskSlice = createSlice({
     },
     deletetask: (state, action) => {
       state.tasks = state.tasks.filter((task) => task.id !== action.payload);
-      if (state.tasks.length === 0) {
+      state.expiredTasks = state.expiredTasks.filter(
+        (task) => task.id !== action.payload
+      );
+      if (state.tasks.length === 0 && state.expiredTasks.length === 0) {
         state.lastId = 0;
       }
     },
@@ -26,8 +30,22 @@ const taskSlice = createSlice({
         state.tasks[index] = { ...state.tasks[index], ...action.payload };
       }
     },
+    expireTask1: (state, action) => {
+      const taskIndex = state.tasks.findIndex((task) => task.id === action.payload);
+      if (taskIndex !== -1) {
+        const [expiredTask] = state.tasks.splice(taskIndex, 1);
+        state.expiredTasks.push({ ...expiredTask, status: "expired" });
+      }
+    },
+    clearExpiredTasks: (state) => {
+      const now = new Date();
+      state.expiredTasks = state.expiredTasks.filter((task) => {
+        const taskExpirationDate = new Date(task.startDate);
+        return taskExpirationDate >= now.setHours(0, 0, 0, 0);
+      });
+    },
   },
 });
 
-export const { addTask, deletetask, updatetask } = taskSlice.actions;
+export const { addTask, deletetask, updatetask, expireTask1, clearExpiredTasks } = taskSlice.actions;
 export default taskSlice.reducer;
