@@ -18,7 +18,6 @@ export default function Task() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Expire tasks that have a start date before the current date
   useEffect(() => {
     const now = new Date();
     tasks.forEach((task) => {
@@ -26,7 +25,7 @@ export default function Task() {
         dispatch(expireTask1(task.id));
       }
     });
-  }, [tasks, dispatch]);
+  }, []);
 
   const [selectedPriority, setSelectedPriority] = useState("All");
   const [selectedStatus, setSelectedStatus] = useState("All");

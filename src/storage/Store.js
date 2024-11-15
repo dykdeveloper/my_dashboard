@@ -9,5 +9,5 @@ export const store = configureStore({
 });
 
 store.subscribe(() => {
-    saveState(store.getState().tasks);
-  });
+  saveState(store.getState());
+});
