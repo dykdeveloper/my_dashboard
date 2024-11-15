@@ -4,7 +4,7 @@ import "../file/css/task.css";
 import view from "../file/images/view.png";
 import update1 from "../file/images/edit.png";
 import delete1 from "../file/images/delete.png";
-import { deletetask, expireTask1 } from "../slice/TaskSlice";
+import { deletetask, expireTask1, completeTask } from "../slice/TaskSlice";
 import { Link, useNavigate } from "react-router-dom";
 import {
   getPriorityClass,
@@ -14,10 +14,11 @@ import {
 } from "../function/Function";
 
 export default function Task() {
-  const tasks = useSelector((state) => state.tasks.tasks) || []; 
+  const tasks = useSelector((state) => state.tasks.tasks) || [];
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // task expired
   useEffect(() => {
     const now = new Date();
     tasks.forEach((task) => {
@@ -25,13 +26,23 @@ export default function Task() {
         dispatch(expireTask1(task.id));
       }
     });
-  }, []);
+  }, [tasks, dispatch]);
+
+  useEffect(() => {
+    const now = new Date();
+    tasks.forEach((task) => {
+      if (task.status === "in-progress" && new Date(task.endDate) < now || task.status === "completed") {
+        dispatch(completeTask(task.id));
+      }
+    });
+  }, [tasks, dispatch]);
 
   const [selectedPriority, setSelectedPriority] = useState("All");
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedStartDate, setSelectedStartDate] = useState("All");
   const [selectedEndDate, setSelectedEndDate] = useState("All");
 
+  // format date
   const formatDateOnly = (dateTime) => {
     const date = new Date(dateTime);
     return date.toISOString().split("T")[0];
@@ -74,6 +85,7 @@ export default function Task() {
     return priorityMatch && statusMatch && startDateMatch && endDateMatch;
   });
 
+  // reset button
   const resetFilters = () => {
     setSelectedPriority("All");
     setSelectedStatus("All");

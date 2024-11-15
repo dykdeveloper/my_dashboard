@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loadState } from "../storage/LocalStorage";
 
-const initialState = {
+const initialState = loadState() || {
   tasks: [],
   lastId: 0, 
   expiredTasks: [],
+  completeTasks: [],
 };
 
 const taskSlice = createSlice({
@@ -38,16 +39,18 @@ const taskSlice = createSlice({
         state.expiredTasks.push(expiredTask);
       }
     },
-    
-    clearExpiredTasks: (state) => {
-      const now = new Date();
-      state.expiredTasks = state.expiredTasks.filter((task) => {
-        const taskExpirationDate = new Date(task.startDate);
-        return taskExpirationDate >= now.setHours(0, 0, 0, 0);
-      });
-    },
+    completeTask: (state, action) =>{
+      state.tasks = state.tasks || [];
+      state.completedTasks = state.completedTasks || [];
+      const taskIndex = state.tasks.findIndex((task) => task.id === action.payload);
+      if (taskIndex !== -1) {
+        const [completedTask] = state.tasks.splice(taskIndex, 1);
+        completedTask.status = "completed";
+        state.completedTasks.push(completedTask); 
+      }
+    }
   },
 });
 
-export const { addTask, deletetask, updatetask, expireTask1, clearExpiredTasks } = taskSlice.actions;
+export const { addTask, deletetask, updatetask, expireTask1, completeTask } = taskSlice.actions;
 export default taskSlice.reducer;

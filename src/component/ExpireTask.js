@@ -10,31 +10,9 @@ import {
   getPriorityImage
 } from "../function/Function";
 import danger from "../file/images/danger.png";
-import { clearExpiredTasks } from "../slice/TaskSlice";
 
 export default function ExpireTask() {
-  const dispatch = useDispatch();
   const expiredTasks = useSelector((state) => state.tasks.expiredTasks) || [];
-
-  useEffect(() => {
-    const scheduleTaskClear = () => {
-      const now = new Date();
-      const millisTillMidnight = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        23, 59, 0, 0
-      ) - now;
-
-      setTimeout(() => {
-        dispatch(clearExpiredTasks());
-        scheduleTaskClear();
-      }, millisTillMidnight);
-    };
-
-    scheduleTaskClear();
-
-  }, [dispatch]);
 
   return (
     <div className="expire-task">

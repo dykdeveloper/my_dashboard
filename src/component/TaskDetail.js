@@ -14,7 +14,6 @@ export default function TaskDetail() {
     settaskdetail(task);
   }, [id, tasks]);
 
-  
 
 
   if (!taskdetail) {
