@@ -10,9 +10,15 @@ import {
   getPriorityImage
 } from "../function/Function";
 import danger from "../file/images/danger.png";
+import { resetexpireTasks } from "../slice/TaskSlice";
 
 export default function ExpireTask() {
   const expiredTasks = useSelector((state) => state.tasks.expiredTasks) || [];
+  const dispatch = useDispatch();
+
+  const handleReset = ()=>{
+    dispatch(resetexpireTasks());
+  }
 
   return (
     <div className="expire-task">
@@ -25,6 +31,7 @@ export default function ExpireTask() {
             <th className="th4">End Date & Time</th>
             <th className="th5">Priority</th>
             <th className="th6">Status</th>
+            <button onClick={handleReset}>Reset</button>
           </tr>
         </thead>
         <tbody>

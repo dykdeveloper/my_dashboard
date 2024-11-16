@@ -1,11 +1,14 @@
-// LocalStorage.js
+
 export const loadState = () => {
   try {
     const serializedState = localStorage.getItem("tasks");
-    return serializedState ? JSON.parse(serializedState) : { tasks: [], lastId: 0 };
-  } catch (error) {
-    console.error("Could not load state", error);
-    return undefined;
+    if (!serializedState) {
+      return {}; 
+    }
+    return JSON.parse(serializedState);
+  } catch (e) {
+    console.error("Could not load state from localStorage", e);
+    return {}; 
   }
 };
 

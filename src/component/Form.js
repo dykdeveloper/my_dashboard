@@ -18,7 +18,8 @@ export default function Form() {
     status: "not-started",
   });
 
-  useEffect(()=>{
+
+  useEffect(() => {
     if (location.state?.task) {
       setTaskData(location.state.task);
     }
@@ -32,58 +33,124 @@ export default function Form() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (taskData.id) {
-      dispatch(updatetask(taskData));
-    }else{
-      dispatch(addTask(taskData));
+      dispatch(updatetask(taskData)); 
+    } else {
+      dispatch(addTask(taskData)); 
     }
-    setTaskData({ name: "", startDate: "", endDate: "", priority: "high", status: "not-started" });
+    setTaskData({
+      name: "",
+      startDate: "",
+      endDate: "",
+      priority: "high",
+      status: "not-started",
+    });
 
     navigate('/');
   };
-  
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-    <h3>{taskData.id ? "Update Task" : "Add Task"}</h3>
+      <h3>{taskData.id ? "Update Task" : "Add Task"}</h3>
       <label htmlFor="name">
         Task Name:
-        <input type="text" name="name" id="name1" placeholder="Enter Task Name Here..." value={taskData.name} onChange={handleChange} required/>
+        <input
+          type="text"
+          name="name"
+          id="name1"
+          placeholder="Enter Task Name Here..."
+          value={taskData.name}
+          onChange={handleChange}
+          required
+        />
       </label>
       <label htmlFor="startDate">
         Starting Date:
-        <input type="datetime-local" name="startDate" id="datetime1" value={taskData.startDate} onChange={handleChange} required/>
+        <input
+          type="datetime-local"
+          name="startDate"
+          id="datetime1"
+          value={taskData.startDate}
+          onChange={handleChange}
+          required
+        />
       </label>
       <label htmlFor="endDate">
         Ending Date:
-        <input type="datetime-local" name="endDate" id="datetime2" value={taskData.endDate} onChange={handleChange} required/>
+        <input
+          type="datetime-local"
+          name="endDate"
+          id="datetime2"
+          value={taskData.endDate}
+          onChange={handleChange}
+          required
+        />
       </label>
       <div className="radio-group">
         <p>Priority:</p>
         <label>
-          <input type="radio" name="priority" value="high" checked={taskData.priority === "high"} onChange={handleChange} required/>
+          <input
+            type="radio"
+            name="priority"
+            value="high"
+            checked={taskData.priority === "high"}
+            onChange={handleChange}
+            required
+          />
           High
         </label>
         <label>
-          <input type="radio" name="priority" value="medium" checked={taskData.priority === "medium"} onChange={handleChange} required/>
+          <input
+            type="radio"
+            name="priority"
+            value="medium"
+            checked={taskData.priority === "medium"}
+            onChange={handleChange}
+            required
+          />
           Medium
         </label>
         <label>
-          <input type="radio" name="priority" value="low" checked={taskData.priority === "low"} onChange={handleChange} required/>
+          <input
+            type="radio"
+            name="priority"
+            value="low"
+            checked={taskData.priority === "low"}
+            onChange={handleChange}
+            required
+          />
           Low
         </label>
       </div>
       <div className="radio-group">
         <p>Status:</p>
         <label>
-          <input type="radio" name="status" value="not-started" checked={taskData.status === "not-started"} onChange={handleChange} />
+          <input
+            type="radio"
+            name="status"
+            value="not-started"
+            checked={taskData.status === "not-started"}
+            onChange={handleChange}
+          />
           Not Started
         </label>
         <label>
-          <input type="radio" name="status" value="in-progress" checked={taskData.status === "in-progress"} onChange={handleChange} />
+          <input
+            type="radio"
+            name="status"
+            value="in-progress"
+            checked={taskData.status === "in-progress"}
+            onChange={handleChange}
+          />
           In Progress
         </label>
         <label>
-          <input type="radio" name="status" value="completed" checked={taskData.status === "completed"} onChange={handleChange} />
+          <input
+            type="radio"
+            name="status"
+            value="completed"
+            checked={taskData.status === "completed"}
+            onChange={handleChange}
+          />
           Completed
         </label>
       </div>
