@@ -47,3 +47,11 @@ export function getStatusButtonClass(status) {
       hour12: true,
     }).format(date);
   };
+
+  export function formatTime(dateString) {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat("en-GB", {
+        timeStyle: "short", 
+        hour12: true       
+    }).format(date);
+}

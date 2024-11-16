@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Sidebar() {
-  const [activeLink, setActiveLink] = useState("task");
+  const location = useLocation();
 
-  const handleLinkClick = (linkName) => {
-    setActiveLink(linkName);
-  };
+  const isActive = (path) => location.pathname === path;
 
   return (
     <div className="sidebar">
@@ -15,30 +13,22 @@ export default function Sidebar() {
       </div>
       <div className="sidebar-menu">
         <ul className="sidebar-nav">
-          <li
-            className={`sidebar-item ${activeLink === "task" ? "active" : ""}`}
-            onClick={() => handleLinkClick("task")}
-          >
+          <li className={`sidebar-item ${isActive("/") ? "active" : ""}`}>
             <Link
               to="/"
-              className={`sidebar-link ${
-                activeLink === "task" ? "active2" : ""
-              }`}
+              className={`sidebar-link ${isActive("/") ? "active2" : ""}`}
             >
               <i className="align-middle" data-feather="sliders"></i>
               <span>Task</span>
             </Link>
           </li>
           <li
-            className={`sidebar-item ${
-              activeLink === "expireTask" ? "active" : ""
-            }`}
-            onClick={() => handleLinkClick("expireTask")}
+            className={`sidebar-item ${isActive("/expiretask") ? "active" : ""}`}
           >
             <Link
               to="/expiretask"
               className={`sidebar-link ${
-                activeLink === "expireTask" ? "active2" : ""
+                isActive("/expiretask") ? "active2" : ""
               }`}
             >
               <i className="align-middle" data-feather="sliders"></i>
@@ -46,30 +36,22 @@ export default function Sidebar() {
             </Link>
           </li>
           <li
-            className={`sidebar-item ${
-              activeLink === "completeTask" ? "active" : ""
-            }`}
-            onClick={() => handleLinkClick("completeTask")}
+            className={`sidebar-item ${isActive("/history") ? "active" : ""}`}
           >
             <Link
               to="/history"
               className={`sidebar-link ${
-                activeLink === "completeTask" ? "active2" : ""
+                isActive("/history") ? "active2" : ""
               }`}
             >
               <i className="align-middle" data-feather="sliders"></i>
               <span>History</span>
             </Link>
           </li>
-          <li
-            className={`sidebar-item ${activeLink === "user" ? "active" : ""}`}
-            onClick={() => handleLinkClick("user")}
-          >
+          <li className={`sidebar-item ${isActive("/user") ? "active" : ""}`}>
             <Link
               to="/user"
-              className={`sidebar-link ${
-                activeLink === "user" ? "active2" : ""
-              }`}
+              className={`sidebar-link ${isActive("/user") ? "active2" : ""}`}
             >
               <i className="align-middle" data-feather="sliders"></i>
               <span>User</span>

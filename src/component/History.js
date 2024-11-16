@@ -1,63 +1,83 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { formatDateTime } from "../function/Function";
-import { resetcompleteTasks } from '../slice/TaskSlice';
+import { resetcompleteTasks } from "../slice/TaskSlice";
+import "../file/css/history.css";
+import { formatTime } from "../function/Function";
+import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 
 export default function History() {
-    const completedTasks1 = useSelector((state) => state.tasks.completedTasks) || [];
-    const dispatch = useDispatch();
+  const completedTasks1 =
+    useSelector((state) => state.tasks.completedTasks) || [];
+  const dispatch = useDispatch();
 
-    const resetcomplete = () =>{
-      dispatch(resetcompleteTasks());
+  const resetcomplete = () => {
+    dispatch(resetcompleteTasks());
+  };
+
+  const groupedTasks = completedTasks1.reduce((groups, task) => {
+    const date = new Date(task.endDate)
+        .toLocaleDateString("en-GB")
+        .split("/")
+        .join("-");
+
+    if (!groups[date]) {
+        groups[date] = [];
     }
+    groups[date].push(task);
+    return groups;
+}, {});
 
-    // Group tasks by end date
-    const groupedTasks = completedTasks1.reduce((groups, task) => {
-        const date = formatDateTime(task.endDate).split(' ')[0]; 
-        if (!groups[date]) {
-            groups[date] = [];
-        }
-        groups[date].push(task);
-        return groups;
-    }, {});
+const taskDates = Object.keys(groupedTasks).sort((a, b) => {
+    const dateA = new Date(a.split("-").reverse().join("-")); 
+    const dateB = new Date(b.split("-").reverse().join("-"));
+    return dateB - dateA; 
+});
 
-    const taskDates = Object.keys(groupedTasks).sort((a, b) => new Date(b) - new Date(a));
+taskDates.forEach(date => {
+    groupedTasks[date].sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
+});
 
-    return (
-        <div className="history">
-            <h2>Completed Tasks History</h2>
-            <button onClick={resetcomplete}>clear all history</button>
-            {completedTasks1.length === 0 ? (
-                <p>No completed tasks available.</p>
-            ) : (
-                taskDates.map((date, dateIndex) => (
-                    <div key={dateIndex}>
-                        <h3>{date}</h3>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Task Name</th>
-                                    <th>Start Date & Time</th>
-                                    <th>End Date & Time</th>
-                                    <th>Priority</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {groupedTasks[date].map((task, index) => (
-                                    <tr key={task.id}>
-                                        <td>{index + 1}</td>
-                                        <td>{task.name}</td>
-                                        <td>{formatDateTime(task.startDate)}</td>
-                                        <td>{formatDateTime(task.endDate)}</td>
-                                        <td>{task.priority}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                ))
-            )}
-        </div>
-    );
+
+  return (
+    <div className="history">
+      <div className="header-history">
+        <h3>Completed Tasks History</h3>
+        <button onClick={resetcomplete}>clear all</button>
+      </div>
+      <table className="t1">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Task Name</th>
+            <th>Starting Date</th>
+            <th>Priority</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+      </table>
+      {completedTasks1.length === 0 ? (
+        <p style={{ marginLeft: "200px", padding: "20px" }}>No completed tasks available.</p>
+      ) : (
+        taskDates.map((date, dateIndex) => (
+          <div key={dateIndex}>
+            <h6>{date}</h6>
+            <table className="t2">
+              <tbody>
+                {groupedTasks[date].map((task) => (
+                  <tr key={task.id}>
+                    <td className="td_h1">{formatTime(task.endDate)}</td>
+                    <td className="td_h2">{task.name}</td>
+                    <td className="td_h3">{formatDateTime(task.startDate)}</td>
+                    <td className="td_h4">{task.priority}</td>
+                    <td className="td_h5"><IoCheckmarkDoneCircleOutline />&nbsp;{task.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))
+      )}
+    </div>
+  );
 }

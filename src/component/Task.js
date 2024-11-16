@@ -31,7 +31,10 @@ export default function Task() {
   useEffect(() => {
     const now = new Date();
     tasks.forEach((task) => {
-      if (task.status === "in-progress" && new Date(task.endDate) < now || task.status === "completed") {
+      if (
+        (task.status === "in-progress" && new Date(task.endDate) < now) ||
+        task.status === "completed"
+      ) {
         dispatch(completeTask(task.id));
       }
     });
@@ -165,7 +168,7 @@ export default function Task() {
       <div className="table-body-container">
         <table>
           <tbody>
-            {Array.isArray(filteredTasks) &&
+            {Array.isArray(filteredTasks) && filteredTasks.length > 0 ? (
               filteredTasks.map((task, index) => (
                 <tr key={task.id}>
                   <td className="td1">{index + 1}</td>
@@ -202,7 +205,14 @@ export default function Task() {
                     </button>
                   </td>
                 </tr>
-              ))}
+              ))
+            ) : (
+              <p
+                  style={{ textAlign: "center", padding: "20px" }}
+                >
+                  Task not available
+                </p>
+            )}
           </tbody>
         </table>
       </div>
