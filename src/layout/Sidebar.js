@@ -13,10 +13,10 @@ export default function Sidebar() {
       </div>
       <div className="sidebar-menu">
         <ul className="sidebar-nav">
-          <li className={`sidebar-item ${isActive("/") ? "active" : ""}`}>
+          <li className={`sidebar-item ${isActive("/dashboard") ? "active" : ""}`}>
             <Link
-              to="/"
-              className={`sidebar-link ${isActive("/") ? "active2" : ""}`}
+              to="/dashboard"
+              className={`sidebar-link ${isActive("/dashboard") ? "active2" : ""}`}
             >
               <i className="align-middle" data-feather="sliders"></i>
               <span>Task</span>

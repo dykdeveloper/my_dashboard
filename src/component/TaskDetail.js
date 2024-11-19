@@ -42,7 +42,7 @@ export default function TaskDetail() {
           <p className={getStatusButtonClass(taskdetail.status)}>{taskdetail.status}</p>
         </div>
       </div>
-      <Link to="/" className="btn">Back to table</Link>
+      <Link to="/dashboard" className="btn">Back to Dashboard</Link>
     </div>
   );
 }

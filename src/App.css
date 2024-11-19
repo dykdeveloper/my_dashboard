@@ -4,10 +4,15 @@
   --ccolor: #183d3d;
   --dcolor: #040d12;
 }
-
 .wrapper{
   position: relative;
 }
+.login-form{
+  position: absolute;
+  top: 70px;
+  width: 100%;
+}
+
 /* sidebar */
 .sidebar {
   width: 200px;

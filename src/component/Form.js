@@ -45,7 +45,7 @@ export default function Form() {
       status: "not-started",
     });
 
-    navigate('/');
+    navigate('/dashboard');
   };
 
   return (
