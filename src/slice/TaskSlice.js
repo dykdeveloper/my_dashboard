@@ -1,88 +1,162 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loadState, saveState } from "../storage/LocalStorage";
 
-const initialState ={
-  lastId: 0,
-  tasks: loadState().tasks || [],
-  expiredTasks: loadState().expiredTasks || [],
-  completedTasks: loadState().completedTasks || [], 
-};
+const initialState = loadState() || {};
 
 const taskSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
+    initializeUserTasks: (state, action) => {
+      const userId = action.payload;
+      if (!state[userId]) {
+        state[userId] = {
+          lastId: 0,
+          tasks: [],
+          expiredTasks: [],
+          completedTasks: [],
+        };
+        saveState(state); 
+      }
+    },
     addTask: (state, action) => {
-      state.lastId += 1;
-      const newTask = { ...action.payload, id: state.lastId };
-      if (!Array.isArray(state.tasks)) {
-        state.tasks = [];
+      const { userId, task } = action.payload;
+
+      if (!state[userId]) {
+        state[userId] = {
+          lastId: 0,
+          tasks: [],
+          expiredTasks: [],
+          completedTasks: [],
+        };
       }
-      state.tasks.push(newTask);
+
+      state[userId].lastId += 1;
+      const newTask = { ...task, id: state[userId].lastId };
+      if (!Array.isArray(state[userId].tasks)) {
+        state[userId].tasks = [];
+      }
+      state[userId].tasks.push(newTask);
       saveState(state);
-      if (state.tasks.length === 0 && state.expiredTasks.length === 0 && state.completedTasks.length === 0) {
-        state.lastId = 0;
+      if (
+        state[userId].tasks.length === 0 &&
+        state[userId].expiredTasks.length === 0 &&
+        state[userId].completedTasks.length === 0
+      ) {
+        state[userId].lastId = 0;
       }
     },
+
     deletetask: (state, action) => {
-      state.tasks = state.tasks.filter((task) => task.id !== action.payload);
-      state.expiredTasks = state.expiredTasks.filter(
-        (task) => task.id !== action.payload
-      );
-      if (state.tasks.length === 0 && state.expiredTasks.length === 0) {
-        state.lastId = 0;
+      const { userId, taskId } = action.payload;
+
+      if (state[userId]) {
+        state[userId].tasks = state[userId].tasks.filter(
+          (task) => task.id !== taskId
+        );
+        state[userId].expiredTasks = state[userId].expiredTasks.filter(
+          (task) => task.id !== taskId
+        );
+      }
+
+      if (state[userId].tasks.length === 0 && state[userId].expiredTasks.length === 0) {
+        state[userId].lastId = 0;
       }
       saveState(state);
-      if (state.tasks.length === 0 && state.expiredTasks.length === 0 && state.completedTasks.length === 0) {
-        state.lastId = 0;
+      if (
+        state[userId].tasks.length === 0 &&
+        state[userId].expiredTasks.length === 0 &&
+        state[userId].completedTasks.length === 0
+      ) {
+        state[userId].lastId = 0;
       }
     },
+
     updatetask: (state, action) => {
-      const index = state.tasks.findIndex((task) => task.id === action.payload.id);
-      if (index !== -1) {
-        state.tasks[index] = { ...state.tasks[index], ...action.payload };
-        saveState(state);
+      const { userId, taskId, updatedData } = action.payload;
+      if (state[userId]) {
+        const index = state[userId].tasks.findIndex((task) => task.id === taskId);
+        if (index !== -1) {
+          state[userId].tasks[index] = { ...state[userId].tasks[index], ...updatedData };
+          saveState(state);
+        }
       }
     },
+
     expireTask1: (state, action) => {
-      const taskIndex = state.tasks.findIndex((task) => task.id === action.payload);
-      if (taskIndex !== -1) {
-        const [expiredTask] = state.tasks.splice(taskIndex, 1);
-        expiredTask.status = "expired";
-        if (!Array.isArray(state.expiredTasks)) {
-          state.expiredTasks = [];
+      const { userId, taskId } = action.payload;
+
+      if (state[userId]){
+        const taskIndex = state[userId].tasks.findIndex(
+          (task) => task.id === taskId
+        );
+        if (taskIndex !== -1) {
+          const [expiredTask] = state[userId].tasks.splice(taskIndex, 1);
+          expiredTask.status = "expired";
+          if (!Array.isArray(state[userId].expiredTasks)) {
+            state[userId].expiredTasks = [];
+          }
+          state[userId].expiredTasks.push(expiredTask);
+          saveState(state);
         }
-        state.expiredTasks.push(expiredTask);
-        saveState(state);
       }
     },
+
     completeTask: (state, action) => {
-      const taskIndex = state.tasks.findIndex((task) => task.id === action.payload);
-      if (taskIndex !== -1) {
-        const [completedTask] = state.tasks.splice(taskIndex, 1);
-        completedTask.status = "completed";
-        if (!Array.isArray(state.completedTasks)) {
-          state.completedTasks = [];
+      const { userId, taskId } = action.payload;
+
+      if (state[userId]){
+        const taskIndex = state[userId].tasks.findIndex(
+          (task) => task.id === taskId
+        );
+        if (taskIndex !== -1) {
+          const [completedTask] = state[userId].tasks.splice(taskIndex, 1);
+          completedTask.status = "completed";
+          if (!Array.isArray(state[userId].completedTasks)) {
+            state[userId].completedTasks = [];
+          }
+          state[userId].completedTasks.push(completedTask);
+          saveState(state);
         }
-        state.completedTasks.push(completedTask);
-        saveState(state);
       }
     },
-    resetexpireTasks : (state) =>{
-      state.expiredTasks = [];
-      if (state.tasks.length === 0 && state.expiredTasks.length === 0 && state.completedTasks.length === 0) {
-        state.lastId = 0;
+
+    resetexpireTasks: (state, action) => {
+      const { userId } = action.payload;
+
+      state[userId].expiredTasks = [];
+      if (
+        state[userId].tasks.length === 0 &&
+        state[userId].expiredTasks.length === 0 &&
+        state[userId].completedTasks.length === 0
+      ) {
+        state[userId].lastId = 0;
       }
     },
-    resetcompleteTasks : (state) =>{
-      state.completedTasks = [];
-      if (state.tasks.length === 0 && state.expiredTasks.length === 0 && state.completedTasks.length === 0) {
-        state.lastId = 0;
+    resetcompleteTasks: (state, action) => {
+      const { userId } = action.payload;
+
+
+      state[userId].completedTasks = [];
+      if (
+        state[userId].tasks.length === 0 &&
+        state[userId].expiredTasks.length === 0 &&
+        state[userId].completedTasks.length === 0
+      ) {
+        state[userId].lastId = 0;
       }
-    }
+    },
   },
 });
 
-export const { addTask, deletetask, updatetask, expireTask1, completeTask, resetexpireTasks, resetcompleteTasks } =
-  taskSlice.actions;
+export const {
+  addTask,
+  deletetask,
+  updatetask,
+  expireTask1,
+  completeTask,
+  resetexpireTasks,
+  resetcompleteTasks,
+  initializeUserTasks
+} = taskSlice.actions;
 export default taskSlice.reducer;

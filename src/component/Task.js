@@ -14,81 +14,93 @@ import {
 } from "../function/Function";
 
 export default function Task() {
-  const tasks = useSelector((state) => state.tasks.tasks) || [];
+  const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const loggedInUser = useSelector((state) => state.auth.user);
+  const userEmail = loggedInUser.email;
 
-  // task expired
+  // Task expired and status update useEffect
   useEffect(() => {
     const now = new Date();
-    tasks.forEach((task) => {
+    const userTasks = tasks[userEmail]?.tasks || [];
+
+    userTasks.forEach((task) => {
       if (task.status === "not-started" && new Date(task.startDate) < now) {
-        dispatch(expireTask1(task.id));
+        dispatch(expireTask1({ userId: userEmail, taskId: task.id }));
       }
-    });
-  }, [tasks, dispatch]);
-
-  useEffect(() => {
-    const now = new Date();
-    tasks.forEach((task) => {
       if (
         (task.status === "in-progress" && new Date(task.endDate) < now) ||
         task.status === "completed"
       ) {
-        dispatch(completeTask(task.id));
+        dispatch(completeTask({ userId: userEmail, taskId: task.id }));
       }
     });
-  }, [tasks, dispatch]);
+  }, [tasks, dispatch, loggedInUser]);
 
   const [selectedPriority, setSelectedPriority] = useState("All");
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedStartDate, setSelectedStartDate] = useState("All");
   const [selectedEndDate, setSelectedEndDate] = useState("All");
 
-  // format date
+  // Format date function
   const formatDateOnly = (dateTime) => {
     const date = new Date(dateTime);
     return date.toISOString().split("T")[0];
   };
 
-  const delete2 = (id) => {
-    dispatch(deletetask(id));
+  const deleteTask = (id) => {
+    dispatch(deletetask({ userId: userEmail, taskId: id }));
   };
 
-  const update = (task) => {
+  const updateTask = (task) => {
     navigate("/form", { state: { task } });
   };
 
+  // Unique start and end dates based on user tasks
   const uniqueStartDates = useMemo(() => {
+    const userTasks = tasks[userEmail]?.tasks || [];
     return [
       "All",
-      ...new Set(tasks.map((task) => formatDateOnly(task.startDate))),
+      ...new Set(userTasks.map((task) => formatDateOnly(task.startDate))),
     ];
-  }, [tasks]);
+  }, [tasks, userEmail]);
 
   const uniqueEndDates = useMemo(() => {
+    const userTasks = tasks[userEmail]?.tasks || [];
     return [
       "All",
-      ...new Set(tasks.map((task) => formatDateOnly(task.endDate))),
+      ...new Set(userTasks.map((task) => formatDateOnly(task.endDate))),
     ];
-  }, [tasks]);
+  }, [tasks, userEmail]);
 
-  const filteredTasks = tasks.filter((task) => {
-    const priorityMatch =
-      selectedPriority === "All" || task.priority === selectedPriority;
-    const statusMatch =
-      selectedStatus === "All" || task.status === selectedStatus;
-    const startDateMatch =
-      selectedStartDate === "All" ||
-      formatDateOnly(task.startDate) === selectedStartDate;
-    const endDateMatch =
-      selectedEndDate === "All" ||
-      formatDateOnly(task.endDate) === selectedEndDate;
+  // Filtering tasks based on selected filters
+  const filteredTasks = useMemo(() => {
+    const userTasks = tasks[userEmail]?.tasks || [];
+    return userTasks.filter((task) => {
+      const priorityMatch =
+        selectedPriority === "All" || task.priority === selectedPriority;
+      const statusMatch =
+        selectedStatus === "All" || task.status === selectedStatus;
+      const startDateMatch =
+        selectedStartDate === "All" ||
+        formatDateOnly(task.startDate) === selectedStartDate;
+      const endDateMatch =
+        selectedEndDate === "All" ||
+        formatDateOnly(task.endDate) === selectedEndDate;
 
-    return priorityMatch && statusMatch && startDateMatch && endDateMatch;
-  });
+      return priorityMatch && statusMatch && startDateMatch && endDateMatch;
+    });
+  }, [
+    tasks,
+    userEmail,
+    selectedPriority,
+    selectedStatus,
+    selectedStartDate,
+    selectedEndDate,
+  ]);
 
-  // reset button
+  // Reset filters
   const resetFilters = () => {
     setSelectedPriority("All");
     setSelectedStatus("All");
@@ -130,7 +142,7 @@ export default function Task() {
               onChange={(e) => setSelectedPriority(e.target.value)}
             >
               <option value="All">All</option>
-              {[...new Set(tasks.map((task) => task.priority))].map(
+              {[...new Set(tasks[userEmail]?.tasks.map((task) => task.priority))].map(
                 (priority) => (
                   <option key={priority} value={priority}>
                     {priority}
@@ -144,11 +156,13 @@ export default function Task() {
               onChange={(e) => setSelectedStatus(e.target.value)}
             >
               <option value="All">All</option>
-              {[...new Set(tasks.map((task) => task.status))].map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))}
+              {[...new Set(tasks[userEmail]?.tasks.map((task) => task.status))].map(
+                (status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                )
+              )}
             </select>
             <button onClick={resetFilters}>Reset</button>
           </tr>
@@ -168,7 +182,7 @@ export default function Task() {
       <div className="table-body-container">
         <table>
           <tbody>
-            {Array.isArray(filteredTasks) && filteredTasks.length > 0 ? (
+            {filteredTasks.length > 0 ? (
               filteredTasks.map((task, index) => (
                 <tr key={task.id}>
                   <td className="td1">{index + 1}</td>
@@ -190,28 +204,26 @@ export default function Task() {
                     </p>
                   </td>
                   <td className="td7">
-                    <Link to={`/taskdetail/${task.id}`}>
+                    <Link to={`/dashboard/taskdetail/${task.id}`}>
                       <img src={view} alt="view" />
                     </Link>
                   </td>
                   <td className="td8">
-                    <button onClick={() => update(task)}>
+                    <button onClick={() => updateTask(task)}>
                       <img src={update1} alt="update" />
                     </button>
                   </td>
                   <td className="td9">
-                    <button onClick={() => delete2(task.id)}>
+                    <button onClick={() => deleteTask(task.id)}>
                       <img src={delete1} alt="delete" />
                     </button>
                   </td>
                 </tr>
               ))
             ) : (
-              <p
-                  style={{ textAlign: "center", padding: "20px" }}
-                >
-                  Task not available
-                </p>
+              <p style={{ textAlign: "center", padding: "20px" }}>
+                Task not available
+              </p>
             )}
           </tbody>
         </table>

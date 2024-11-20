@@ -6,7 +6,9 @@ import { getPriorityClass, getPriorityImage, getStatusButtonClass, formatDateTim
 
 export default function TaskDetail() {
   const { id } = useParams();
-  const tasks = useSelector((state) => state.tasks.tasks);
+  const loggedInUser = useSelector((state) => state.auth.user);
+  const userEmail = loggedInUser?.email;
+  const tasks = useSelector((state) => state.tasks[userEmail].tasks);
   const [taskdetail, settaskdetail] = useState(null);
 
   useEffect(() => {

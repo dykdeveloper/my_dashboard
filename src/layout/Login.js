@@ -1,9 +1,52 @@
 import React, { useState } from "react";
 import "../file/css/login.css";
+import { login } from "../slice/AuthSlice";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { initializeUserTasks } from "../slice/TaskSlice";
 
 export default function Login() {
+  const user = useSelector((state) => state.auth.user);
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  if (user) {
+    navigate("/dashboard");
+    return null;
+  }
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    users.push({ username, password, email });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    setUsername("");
+    setPassword("");
+    setEmail("");
+
+    setIsRightPanelActive(false);
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const user = users.find(
+      (u) => u.email === email && u.password === password
+    );
+    if (user) {
+      dispatch(login(user));
+      dispatch(initializeUserTasks(user.email));  
+      navigate("/dashboard");
+    } else {
+      setErrorMessage("Invalid username or password");
+    }
+  };
   const handleSignUpClick = () => {
     setIsRightPanelActive(true);
   };
@@ -20,24 +63,54 @@ export default function Login() {
         id="container"
       >
         <div className="form-container sign-up-container">
-          <form action="#">
+          <form onSubmit={handleRegister}>
             <h1>Create Account</h1>
             <span>or use your email for registration</span>
-            <input type="text" placeholder="Name" required/>
-            <input type="email" placeholder="Email" required/>
-            <input type="password" placeholder="Password" required/>
-            <button>Sign Up</button>
+            <input
+              type="text"
+              placeholder="Name"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit">Sign Up</button>
           </form>
         </div>
 
         <div className="form-container sign-in-container">
-          <form action="#">
+          <form onSubmit={handleLogin}>
             <h1>Sign in</h1>
             <span>or use your account</span>
-            <input type="email" placeholder="Email" required/>
-            <input type="password" placeholder="Password" required/>
-            <p>Invalid Email & Password</p>
-            <button>Sign In</button>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            {errorMessage && <p className="error">{errorMessage}</p>}
+            <button type="submit">Sign In</button>
           </form>
         </div>
 

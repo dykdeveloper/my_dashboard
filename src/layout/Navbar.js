@@ -3,8 +3,21 @@ import usericon from "../file/images/user.png";
 import messageicon from "../file/images/email.png";
 import searchicon from "../file/images/magnifying-glass.png";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {logout} from "../slice/AuthSlice"
+import { useNavigate } from "react-router-dom";
+import { getInitials } from "../function/Function";
 
 export default function Navbar() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
+
+  const handlelogout = () =>{
+    dispatch(logout())
+    navigate("/")
+  }
+
   return (
     <>
       <div className="navbarr">
@@ -30,13 +43,13 @@ export default function Navbar() {
 
           <div className="userbox">
             <div className="profile-dp">
-              <h1>NY</h1>
+              <h1>{getInitials(user.username)}</h1>
             </div>
             <div className="user-name">
-                <p>yash nandvana</p>
+                <p>{user.username}</p>
             </div>
             <div className="logout-btn">
-                <button>logout</button>
+                <button onClick={handlelogout}>logout</button>
             </div>
           </div>
         </div>

@@ -1,3 +1,9 @@
+const initialState = {
+  lastId: 0,
+  tasks: [],
+  expiredTasks: [],
+  completedTasks: [],
+};
 
 export const loadState = () => {
   try {
@@ -5,12 +11,18 @@ export const loadState = () => {
     if (!serializedState) {
       return {}; 
     }
-    return JSON.parse(serializedState);
+    const parsedState = JSON.parse(serializedState);
+    // Add default structure for users if not present
+    Object.keys(parsedState).forEach((userId) => {
+      parsedState[userId] = { ...initialState, ...parsedState[userId] };
+    });
+    return parsedState;
   } catch (e) {
     console.error("Could not load state from localStorage", e);
     return {}; 
   }
 };
+
 
 export const saveState = (state) => {
   try {

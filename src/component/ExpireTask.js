@@ -11,11 +11,14 @@ import danger from "../file/images/danger.png";
 import { resetexpireTasks } from "../slice/TaskSlice";
 
 export default function ExpireTask() {
-  const expiredTasks = useSelector((state) => state.tasks.expiredTasks) || [];
+  const expiredTasks = useSelector((state) => state.tasks);
+  const loggedInUser = useSelector((state) => state.auth.user);
+  const userEmail = loggedInUser?.email;
+
   const dispatch = useDispatch();
 
   const handleReset = () => {
-    dispatch(resetexpireTasks());
+    dispatch(resetexpireTasks({ userId: userEmail }));
   };
 
   return (
@@ -35,8 +38,9 @@ export default function ExpireTask() {
           </tr>
         </thead>
         <tbody>
-          {expiredTasks.length > 0 ? (
-            expiredTasks.map((task, index) => (
+          {expiredTasks[userEmail].expiredTasks &&
+          expiredTasks[userEmail].expiredTasks.length > 0 ? (
+            expiredTasks[userEmail].expiredTasks.map((task, index) => (
               <tr key={task.id}>
                 <td className="td1">{index + 1}</td>
                 <td className="td2">{task.name}</td>
@@ -60,8 +64,8 @@ export default function ExpireTask() {
               </tr>
             ))
           ) : (
-            <p style={{ textAlign: "center", padding: "20px" }}>
-                No expired tasks available
+            <p colSpan="7" style={{ textAlign: "center", padding: "20px" }}>
+              No expired tasks available
             </p>
           )}
         </tbody>

@@ -55,3 +55,11 @@ export function getStatusButtonClass(status) {
         hour12: true       
     }).format(date);
 }
+
+export function getInitials(username){
+  const nameArray = username.split(" "); 
+  const initials = nameArray
+    .map((name) => name.charAt(0).toUpperCase())
+    .join(""); 
+  return initials;
+};

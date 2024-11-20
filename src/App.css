@@ -7,10 +7,10 @@
 .wrapper{
   position: relative;
 }
-.login-form{
-  position: absolute;
-  top: 70px;
-  width: 100%;
+.loginform{
+  margin-top: 50px;
+  margin-left: -180px;
+  
 }
 
 /* sidebar */

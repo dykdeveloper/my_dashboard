@@ -8,14 +8,17 @@ import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 
 export default function History() {
   const completedTasks1 =
-    useSelector((state) => state.tasks.completedTasks) || [];
+    useSelector((state) => state.tasks);
   const dispatch = useDispatch();
+  const loggedInUser = useSelector((state) => state.auth.user);
+  const userEmail = loggedInUser?.email;
 
   const resetcomplete = () => {
-    dispatch(resetcompleteTasks());
-  };
+  dispatch(resetcompleteTasks({ userId: userEmail }));
+};
 
-  const groupedTasks = completedTasks1.reduce((groups, task) => {
+
+  const groupedTasks = completedTasks1[userEmail].completedTasks.reduce((groups, task) => {
     const date = new Date(task.endDate)
         .toLocaleDateString("en-GB")
         .split("/")
@@ -56,7 +59,7 @@ taskDates.forEach(date => {
           </tr>
         </thead>
       </table>
-      {completedTasks1.length === 0 ? (
+      {completedTasks1[userEmail].completedTasks.length === 0 ? (
         <p style={{ marginLeft: "200px", padding: "20px" }}>No completed tasks available.</p>
       ) : (
         taskDates.map((date, dateIndex) => (

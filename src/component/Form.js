@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTask, updatetask } from "../slice/TaskSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../file/css/form.css";
@@ -8,6 +8,7 @@ export default function Form() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const loggedInUser = useSelector((state) => state.auth.user);
 
   const [taskData, setTaskData] = useState({
     id: null,
@@ -33,21 +34,30 @@ export default function Form() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (taskData.id) {
-      dispatch(updatetask(taskData)); 
+      const { id, ...updatedData } = taskData; 
+      dispatch(updatetask({
+        userId: loggedInUser.email,
+        taskId: id, 
+        updatedData, 
+      }));
     } else {
-      dispatch(addTask(taskData)); 
+      dispatch(addTask({
+        userId: loggedInUser.email,
+        task: taskData,
+      }));
     }
     setTaskData({
+      id: null,
       name: "",
       startDate: "",
       endDate: "",
       priority: "high",
       status: "not-started",
     });
-
+  
     navigate('/dashboard');
   };
-
+  
   return (
     <form className="form" onSubmit={handleSubmit}>
       <h3>{taskData.id ? "Update Task" : "Add Task"}</h3>
