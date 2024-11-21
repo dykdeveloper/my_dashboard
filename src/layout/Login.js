@@ -4,6 +4,7 @@ import { login } from "../slice/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeUserTasks } from "../slice/TaskSlice";
+import bcrypt from "bcryptjs";
 
 export default function Login() {
   const user = useSelector((state) => state.auth.user);
@@ -20,10 +21,20 @@ export default function Login() {
     return null;
   }
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const users = JSON.parse(localStorage.getItem("users")) || [];
-    users.push({ username, password, email });
+
+    const emailExists = users.some((user) => user.email === email);
+
+    if (emailExists) {
+      alert("This email is already registered. Please use a different email.");
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    users.push({ username, password: hashedPassword, email });
     localStorage.setItem("users", JSON.stringify(users));
 
     setUsername("");
@@ -33,16 +44,19 @@ export default function Login() {
     setIsRightPanelActive(false);
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const users = JSON.parse(localStorage.getItem("users")) || [];
-    const user = users.find(
-      (u) => u.email === email && u.password === password
-    );
+    const user = users.find((u) => u.email === email);
     if (user) {
-      dispatch(login(user));
-      dispatch(initializeUserTasks(user.email));  
-      navigate("/dashboard");
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (isPasswordValid) {
+        dispatch(login(user));
+        dispatch(initializeUserTasks(user.email));
+        navigate("/dashboard");
+      } else {
+        setErrorMessage("Invalid username or password");
+      }
     } else {
       setErrorMessage("Invalid username or password");
     }

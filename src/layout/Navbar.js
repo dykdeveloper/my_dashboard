@@ -7,8 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {logout} from "../slice/AuthSlice"
 import { useNavigate } from "react-router-dom";
 import { getInitials } from "../function/Function";
+import { useLocation } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar({onSearch}) {
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
@@ -18,18 +20,31 @@ export default function Navbar() {
     navigate("/")
   }
 
+  const handleSearchChange = (e) =>{
+    const query = e.target.value;
+    onSearch(query);
+  }
+  const showSearchBar = location.pathname.startsWith("/dashboard");
+
+
   return (
     <>
       <div className="navbarr">
-        <div className="add-task">
+        <div className={`add-task ${showSearchBar ? "" : "not"}`}>
           <Link to='/form' className="form" href="index.html">
           <p>+ ADD TASK</p>
           </Link>
         </div>
+        {showSearchBar && (
         <div className="search">
-          <input type="text" placeholder="search here..." />
+          <input
+            type="text"
+            placeholder="search here..."
+            onChange={handleSearchChange}
+          />
           <img src={searchicon} alt="search" className="searchicon" />
         </div>
+      )}
         <div className="messagebox">
           <img src={messageicon} alt="message" className="message" />
           <div className="message-count">

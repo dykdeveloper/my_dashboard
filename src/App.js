@@ -19,10 +19,12 @@ import TaskDetail from "./component/TaskDetail.js";
 import Login from "./layout/Login.js";
 import ProtectedRoute from "./component/ProtectedRoute";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 function App() {
   const location = useLocation();
   const user = useSelector((state) => state.auth.user);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const showSidebarAndNavbar = [
     "/dashboard",
@@ -32,19 +34,21 @@ function App() {
     "/form",
     "/dashboard/taskdetail/:id",
   ].some((path) => location.pathname.startsWith(path));
+  const showSearchBar = location.pathname.startsWith("/dashboard");
+
 
   return (
     <div className="wrapper">
       {user && showSidebarAndNavbar && <Sidebar />}
       <div className="main">
-        {user && showSidebarAndNavbar && <Navbar />}
+        {user && showSidebarAndNavbar && <Navbar onSearch={(query)=> setSearchQuery(query)} showSearchBar={location.pathname.startsWith("/dashboard")} />}
         <main className="content">
           <Routes>
             <Route
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <Task />
+                  <Task searchQuery={searchQuery}/>
                 </ProtectedRoute>
               }
             />

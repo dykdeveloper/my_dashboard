@@ -1,0 +1,40 @@
+:root {
+  --acolor: #a2c5b8;
+  --bcolor: #5c8374;
+  --ccolor: #183d3d;
+  --dcolor: #040d12;
+}
+.useractive{
+    padding: 10px;
+}
+.useractive h3{
+    font-family:'Times New Roman', Times, serif;
+    font-weight: 600;
+    color: var(--ccolor);
+    margin-bottom: 20px;
+}
+.active-user{
+    display: flex;
+}
+.active-user .header-active{
+    margin-right: 30px;
+}
+.header-active p{
+    font-size: 18px;
+    font-weight: 600;
+    color: black;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.detail-active p{
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--bcolor);
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.detail-active p:last-child{
+    background-color: rgb(5, 107, 5);
+    color: white;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 2px 5px 30px;
+}

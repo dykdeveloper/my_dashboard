@@ -13,7 +13,7 @@ import {
   formatDateTime,
 } from "../function/Function";
 
-export default function Task() {
+export default function Task({searchQuery}) {
   const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -90,7 +90,10 @@ export default function Task() {
         formatDateOnly(task.endDate) === selectedEndDate;
 
       return priorityMatch && statusMatch && startDateMatch && endDateMatch;
-    });
+    })
+    .filter((task) =>
+      task.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
   }, [
     tasks,
     userEmail,
@@ -98,6 +101,7 @@ export default function Task() {
     selectedStatus,
     selectedStartDate,
     selectedEndDate,
+    searchQuery,
   ]);
 
   // Reset filters
