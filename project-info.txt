@@ -1,0 +1,69 @@
+Project Summary:
+
+1. Registration and Login:
+
+👉 Users can register by providing details, which are saved in local storage.
+👉 Registration ensures no duplicate email addresses are allowed.
+👉 Login checks the provided credentials against local storage.
+👉 Successful login redirects users to the dashboard.
+
+
+2. Dashboard Features:
+
+👉 Task Management:
+♦️ Displays all tasks by default.
+♦️ Includes a search bar to filter tasks dynamically based on the query.
+♦️ Shows a notification 2 minutes before a task's start date expires.
+
+👉 Filters:
+♦️ Users can filter tasks by:
+♦️ Start Date
+♦️ End Date
+♦️ Priority
+♦️ Status
+
+👉 ExpireTask Component:
+♦️ Tasks with expired start dates automatically move to this component.
+♦️ Their status is updated to "expired."
+
+👉 History Component:
+♦️ Tasks with expired end dates are marked as "completed."
+♦️ These completed tasks are displayed in the History component, sorted by date.
+
+
+3. User Management:
+
+♦️ A User Component displays user details and shows a badge for active users.
+♦️ The active user's name is displayed in the dashboard.
+♦️ Includes a logout button for session termination.
+
+👉 Key Functionalities:
+
+1.Dynamic Search: Tasks can be searched in real-time using the search bar.
+
+2.Notifications: Real-time notifications alert users when a task is close to expiring.
+
+3.Task Expiry Handling:
+♦️ Tasks with expired start dates are moved to the ExpireTask component.
+♦️ Tasks with expired end dates are marked as completed and added to the History component.
+
+4.Filtering: Tasks can be sorted and filtered based on multiple criteria.
+
+5.User Management:
+♦️ Active user details are displayed on the dashboard.
+♦️ Only one user can be logged in at a time.
+
+
+👉 Technical Stack:
+♦️ React: For building the user interface.
+♦️ React Router: For navigation between components like login, dashboard, and other pages.
+♦️ Redux Toolkit: To manage the application's state and handle tasks and user data efficiently.
+♦️ Local Storage: For saving user and task data persistently.
+
+
+👉 Notes:
+♦️ Ensure form validation for both registration and login.
+♦️ Use Redux Toolkit slices to manage states like tasks, users, and notifications.
+♦️ Implement a cron job or setInterval logic for checking task expiry and triggering notifications.
+♦️ Maintain proper state updates to avoid inconsistencies when tasks are moved between components.
+♦️ Consider using useEffect for dynamically updating task statuses and filters.
