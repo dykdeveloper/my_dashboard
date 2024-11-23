@@ -34,7 +34,7 @@ function App() {
     "/form",
     "/dashboard/taskdetail/:id",
   ].some((path) => location.pathname.startsWith(path));
-  const showSearchBar = location.pathname.startsWith("/dashboard");
+
 
 
   return (

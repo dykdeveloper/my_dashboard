@@ -20,7 +20,6 @@ export default function Task({searchQuery}) {
   const loggedInUser = useSelector((state) => state.auth.user);
   const userEmail = loggedInUser.email;
 
-  // Task expired and status update useEffect
   useEffect(() => {
     const now = new Date();
     const userTasks = tasks[userEmail]?.tasks || [];

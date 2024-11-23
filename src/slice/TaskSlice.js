@@ -157,6 +157,7 @@ export const {
   completeTask,
   resetexpireTasks,
   resetcompleteTasks,
-  initializeUserTasks
+  initializeUserTasks,
+  updateTaskStatus
 } = taskSlice.actions;
 export default taskSlice.reducer;
